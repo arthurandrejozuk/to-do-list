@@ -1,3 +1,4 @@
+import { useState } from "react"
 import { ChecklistsWrapper } from "./components/ChecklistsWrapper"
 import { Container } from "./components/Container"
 import { Dialog } from "./components/Dialog"
@@ -9,6 +10,7 @@ import { IconPlus, IconSchool } from "./components/icons"
 import { SubHeading } from "./components/SubHeading"
 import { ToDoItem } from "./components/ToDoItem"
 import { ToDoList } from "./components/ToDoList"
+import { FormToDo } from "./components/FormToDo"
 
 const todos = [
   {
@@ -53,6 +55,17 @@ const completed = [
 
 function App() {
 
+  const [showDialog, setShowDialog] = useState(false);
+
+  const toggleDialog = () => {
+    setShowDialog(!showDialog);
+  }
+
+  const addToDo = () => {
+    console.log('Precisamos add um novo to do');
+    toggleDialog()
+  }
+
   return (
     <main>
       <Container>
@@ -61,7 +74,6 @@ function App() {
             <IconSchool /> Plano de estudos
           </Heading>
         </Header>
-        <Dialog/>
         <ChecklistsWrapper>
           <SubHeading>Para estudar</SubHeading>
           <ToDoList>
@@ -76,7 +88,10 @@ function App() {
             })}
           </ToDoList>
           <Footer>
-            <FabButton>
+            <Dialog isOpen={showDialog} onClose={toggleDialog}>
+                <FormToDo onSubmit={addToDo}/>
+            </Dialog>
+            <FabButton onClick={toggleDialog}>
               <IconPlus />
             </FabButton>
           </Footer>
