@@ -1,21 +1,16 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import ToDoContext from "./ToDoContext";
 
-export function ToDoProvider ({children}) {
-    const [toDo, setToDo] = useState([
-        {
-            id: 1,
-            description: "JSX e componentes",
-            completed: false,
-            createdAt: "2022-10-31"
-        },
-        {
-            id: 2,
-            description: "Props, state e hooks",
-            completed: true,
-            createdAt: "2022-10-31"
-        }
-    ])
+const TODOS = 'toDos'
+
+export function ToDoProvider({ children }) {
+  
+  const savedToDo = localStorage.getItem(TODOS);
+  const [toDo, setToDo] = useState(savedToDo ? JSON.parse(savedToDo) : []);
+  
+    useEffect(() => {
+        localStorage.setItem(TODOS, JSON.stringify(toDo))
+    },[toDo])
 
      const addToDo = (formData) => {
         const description = formData.get('description')

@@ -1,8 +1,11 @@
 import './todo-item.style.css'
 import { IconPencil, IconTrash } from "../icons";
+import { useContext } from 'react';
+import ToDoContext from '../ToDoProvider/ToDoContext';
 
-export function ToDoItem ({ item, onToggle, onDeleteToDo }) {
+export function ToDoItem ({ item }) {
     const styles = ['todo-item']
+    const {toggleToDoCompleted, deleteToDo} = useContext(ToDoContext);
 
     if (item.completed) {
         styles.push('completed')
@@ -14,12 +17,12 @@ export function ToDoItem ({ item, onToggle, onDeleteToDo }) {
                 {new Date(item.createdAt).toLocaleDateString('pt-BR')}
             </p>
             <div className="details">
-                <input onClick={() => onToggle(item)} type="checkbox" className="checkbox" defaultChecked={item.completed} />
+                <input onClick={() => toggleToDoCompleted(item)} type="checkbox" className="checkbox" defaultChecked={item.completed} />
                 <p className="description">
                     {item.description}
                 </p>
                 <div className="actions">
-                    <button onClick={() => onDeleteToDo(item)} className="btn">
+                    <button onClick={() => deleteToDo(item)} className="btn">
                         <IconTrash  />
                     </button>
                     <button className="btn">
